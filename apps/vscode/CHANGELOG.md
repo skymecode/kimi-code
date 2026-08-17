@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.7.1
+
+### Patch Changes
+
+- [#2858](https://github.com/MoonshotAI/kimi-code/pull/2858) [`59dde73`](https://github.com/MoonshotAI/kimi-code/commit/59dde734f37596db5c77794060f81bfb3c1dbeb6) Thanks [@7Sageer](https://github.com/7Sageer)! - On the legacy engine, plugin MCP server changes (install / enable / disable / remove / reload) now apply to open sessions immediately, and an MCP server OAuth sign-in or credential reset automatically refreshes the affected sessions instead of leaving them stuck until a manual reconnect; a connection that fails mid-session for auth reasons is now reported as needing sign-in rather than as a generic failure.
+
+  `@moonshot-ai/kimi-code-sdk`: the MCP management surface is now backed by a unified, source-tagged registry — `listMcpServers` also covers plugin-declared servers (read-only, with their effective config) and returns `source` / `origin` / `mutable` markers; new `getMcpServer` for a single effective config; `testMcpServerConfig` probes an unsaved inline config; sessions can connect a server at runtime via `addMcpServer` with an optional persist flag; `reconnectMcpServer` accepts an optional replacement config and otherwise re-resolves the current config instead of reusing a stale snapshot; `listMcpServerAuthStatuses` accepts `cwd` / `verify` (online probe) and distinguishes dead grants via the new `oauth-expired` state; stored OAuth grants now record their absolute expiry and are refreshed proactively and single-flight per credential. Session status entries and read-only management entries redact secret-bearing stdio `env` / remote `headers` values to key lists, and concurrent logins for the same credential join a single browser flow. A new app-level inspection, `inspectAppMcpServers`, reports every server's effective config and real (probe-verified) authorization state — including plugin servers and runtime-name collisions — and the OAuth flow RPCs have locator-addressed variants (`authenticateAppMcpServer` / `resetAppMcpServerAuth`) so plugin servers can be signed in and reset directly.
+
+- Updated dependencies [[`d833a1a`](https://github.com/MoonshotAI/kimi-code/commit/d833a1a893c4d69d96af542f40557442992085e0), [`61591bc`](https://github.com/MoonshotAI/kimi-code/commit/61591bce09f4467aa1664cb8ecb6aa6904b7accd), [`d833a1a`](https://github.com/MoonshotAI/kimi-code/commit/d833a1a893c4d69d96af542f40557442992085e0), [`59dde73`](https://github.com/MoonshotAI/kimi-code/commit/59dde734f37596db5c77794060f81bfb3c1dbeb6)]:
+  - @moonshot-ai/kimi-code-sdk@0.19.0
+
 ## 0.7.0
 
 ### Minor Changes

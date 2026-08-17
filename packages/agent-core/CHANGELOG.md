@@ -1,5 +1,11 @@
 # @moonshot-ai/agent-core
 
+## 0.15.9
+
+### Patch Changes
+
+- [#2928](https://github.com/MoonshotAI/kimi-code/pull/2928) [`d96cd03`](https://github.com/MoonshotAI/kimi-code/commit/d96cd037702637305422222e985139e51ff83c8c) Thanks [@chengluyu](https://github.com/chengluyu)! - Include the file-reference workaround in the `GOAL_OBJECTIVE_TOO_LONG` error message so clients surface how to submit long objectives.
+
 ## 0.15.8
 
 ### Patch Changes

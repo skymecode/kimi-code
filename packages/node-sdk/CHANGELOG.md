@@ -1,5 +1,19 @@
 # @moonshot-ai/kimi-code-sdk
 
+## 0.19.0
+
+### Minor Changes
+
+- [#2593](https://github.com/MoonshotAI/kimi-code/pull/2593) [`d833a1a`](https://github.com/MoonshotAI/kimi-code/commit/d833a1a893c4d69d96af542f40557442992085e0) Thanks [@7Sageer](https://github.com/7Sageer)! - Daemon file references no longer persist a materialization path: the daemon-file URL builder takes only a file id, and the parsed reference no longer carries a `path` field. The display path is derived from the session media store at read time, so a session fork or home relocation can no longer stale a persisted reference. Urls with a legacy `?path=` query still parse.
+
+- [#2934](https://github.com/MoonshotAI/kimi-code/pull/2934) [`61591bc`](https://github.com/MoonshotAI/kimi-code/commit/61591bce09f4467aa1664cb8ecb6aa6904b7accd) Thanks [@chengluyu](https://github.com/chengluyu)! - Add `session.promptWithSkills(input, skills)` to submit one prompt with one or more skill activations bundled into the same user message — one turn, one undo unit (v2 engine only; rejects on the v1 engine).
+
+- [#2593](https://github.com/MoonshotAI/kimi-code/pull/2593) [`d833a1a`](https://github.com/MoonshotAI/kimi-code/commit/d833a1a893c4d69d96af542f40557442992085e0) Thanks [@7Sageer](https://github.com/7Sageer)! - Add `uploadFile` for uploading media to the engine's file store and referencing it from prompts, plus an optional `promptId` on prompt submissions for correlating them with turn-started events. Both require the v2 harness.
+
+- [#2858](https://github.com/MoonshotAI/kimi-code/pull/2858) [`59dde73`](https://github.com/MoonshotAI/kimi-code/commit/59dde734f37596db5c77794060f81bfb3c1dbeb6) Thanks [@7Sageer](https://github.com/7Sageer)! - On the legacy engine, plugin MCP server changes (install / enable / disable / remove / reload) now apply to open sessions immediately, and an MCP server OAuth sign-in or credential reset automatically refreshes the affected sessions instead of leaving them stuck until a manual reconnect; a connection that fails mid-session for auth reasons is now reported as needing sign-in rather than as a generic failure.
+
+  `@moonshot-ai/kimi-code-sdk`: the MCP management surface is now backed by a unified, source-tagged registry — `listMcpServers` also covers plugin-declared servers (read-only, with their effective config) and returns `source` / `origin` / `mutable` markers; new `getMcpServer` for a single effective config; `testMcpServerConfig` probes an unsaved inline config; sessions can connect a server at runtime via `addMcpServer` with an optional persist flag; `reconnectMcpServer` accepts an optional replacement config and otherwise re-resolves the current config instead of reusing a stale snapshot; `listMcpServerAuthStatuses` accepts `cwd` / `verify` (online probe) and distinguishes dead grants via the new `oauth-expired` state; stored OAuth grants now record their absolute expiry and are refreshed proactively and single-flight per credential. Session status entries and read-only management entries redact secret-bearing stdio `env` / remote `headers` values to key lists, and concurrent logins for the same credential join a single browser flow. A new app-level inspection, `inspectAppMcpServers`, reports every server's effective config and real (probe-verified) authorization state — including plugin servers and runtime-name collisions — and the OAuth flow RPCs have locator-addressed variants (`authenticateAppMcpServer` / `resetAppMcpServerAuth`) so plugin servers can be signed in and reset directly.
+
 ## 0.18.0
 
 ### Minor Changes

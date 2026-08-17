@@ -1,5 +1,33 @@
 # @moonshot-ai/kimi-code
 
+## 0.37.0
+
+### Minor Changes
+
+- [#2935](https://github.com/MoonshotAI/kimi-code/pull/2935) [`44a6c70`](https://github.com/MoonshotAI/kimi-code/commit/44a6c70e66762ea9e122f8dceae16dc759086a7c) Thanks [@chengluyu](https://github.com/chengluyu)! - Activate multiple skills in a single prompt. Type `/` after whitespace to insert a skill token; all referenced skills run with the prompt as one turn (and undo as one unit).
+
+- [#2633](https://github.com/MoonshotAI/kimi-code/pull/2633) [`f492cd7`](https://github.com/MoonshotAI/kimi-code/commit/f492cd7c9e03666ecfd10dc47ca9b48c35de2318) Thanks [@tpoisonooo](https://github.com/tpoisonooo)! - Add the /tower slash command to orchestrate multiple agents iterating on one repo in parallel — you act as the control tower while worker agents execute missions in their own git worktrees. Run /tower to start.
+
+### Patch Changes
+
+- [#2593](https://github.com/MoonshotAI/kimi-code/pull/2593) [`d833a1a`](https://github.com/MoonshotAI/kimi-code/commit/d833a1a893c4d69d96af542f40557442992085e0) Thanks [@7Sageer](https://github.com/7Sageer)! - Keep pasted image and video attachments available in session history, and clean up temporary uploads automatically.
+
+- [#2972](https://github.com/MoonshotAI/kimi-code/pull/2972) [`04d23e2`](https://github.com/MoonshotAI/kimi-code/commit/04d23e2dab776c480d24cfa033c9500543c75a3b) Thanks [@sailist](https://github.com/sailist)! - Fix UTF-8 text files containing Chinese or emoji being misdetected as binary, so log files preview correctly in the web UI.
+
+- [#2940](https://github.com/MoonshotAI/kimi-code/pull/2940) [`6b72345`](https://github.com/MoonshotAI/kimi-code/commit/6b72345f8bb03487e3bcc05b541e65484818428c) Thanks [@bj456736](https://github.com/bj456736)! - Print the full `kimi --resume` command after `/fork` and copy it to the clipboard, so the fork can be entered directly from a new CLI process.
+
+- [#2928](https://github.com/MoonshotAI/kimi-code/pull/2928) [`d96cd03`](https://github.com/MoonshotAI/kimi-code/commit/d96cd037702637305422222e985139e51ff83c8c) Thanks [@chengluyu](https://github.com/chengluyu)! - Warn in the footer while a typed `/goal` objective exceeds the 4000-character limit, and restore the input instead of losing it when an over-limit objective is rejected. The error message now suggests putting long content in a file and referencing the file path.
+
+- [#2633](https://github.com/MoonshotAI/kimi-code/pull/2633) [`f492cd7`](https://github.com/MoonshotAI/kimi-code/commit/f492cd7c9e03666ecfd10dc47ca9b48c35de2318) Thanks [@tpoisonooo](https://github.com/tpoisonooo)! - Fix several seconds of startup lag: the global search index (used only by the web UI's search) was being opened and synced in every terminal session, including ones that never search. It now loads on demand, so interactive startup stays fast.
+
+- [#2969](https://github.com/MoonshotAI/kimi-code/pull/2969) [`ee564e5`](https://github.com/MoonshotAI/kimi-code/commit/ee564e5ec90afd068123b8052928c53f1fd5a27d) Thanks [@sailist](https://github.com/sailist)! - Persist the token counting ledger (`token_counting.measured` / `truncated` / `rebased`) to the wire journal, so the displayed context size keeps its measured value after archiving and unarchiving a session (or any close → resume) instead of dropping to a smaller estimate until the next LLM call.
+
+- [#2633](https://github.com/MoonshotAI/kimi-code/pull/2633) [`f492cd7`](https://github.com/MoonshotAI/kimi-code/commit/f492cd7c9e03666ecfd10dc47ca9b48c35de2318) Thanks [@tpoisonooo](https://github.com/tpoisonooo)! - Queue slash skill commands entered while the agent is busy instead of rejecting them with "Cannot /<cmd> while streaming" — they now behave exactly like normal input: queued visibly by default, and Ctrl-S steers them into the running turn as real skill activations.
+
+- [#2858](https://github.com/MoonshotAI/kimi-code/pull/2858) [`59dde73`](https://github.com/MoonshotAI/kimi-code/commit/59dde734f37596db5c77794060f81bfb3c1dbeb6) Thanks [@7Sageer](https://github.com/7Sageer)! - On the legacy engine, plugin MCP server changes (install / enable / disable / remove / reload) now apply to open sessions immediately, and an MCP server OAuth sign-in or credential reset automatically refreshes the affected sessions instead of leaving them stuck until a manual reconnect; a connection that fails mid-session for auth reasons is now reported as needing sign-in rather than as a generic failure.
+
+  `@moonshot-ai/kimi-code-sdk`: the MCP management surface is now backed by a unified, source-tagged registry — `listMcpServers` also covers plugin-declared servers (read-only, with their effective config) and returns `source` / `origin` / `mutable` markers; new `getMcpServer` for a single effective config; `testMcpServerConfig` probes an unsaved inline config; sessions can connect a server at runtime via `addMcpServer` with an optional persist flag; `reconnectMcpServer` accepts an optional replacement config and otherwise re-resolves the current config instead of reusing a stale snapshot; `listMcpServerAuthStatuses` accepts `cwd` / `verify` (online probe) and distinguishes dead grants via the new `oauth-expired` state; stored OAuth grants now record their absolute expiry and are refreshed proactively and single-flight per credential. Session status entries and read-only management entries redact secret-bearing stdio `env` / remote `headers` values to key lists, and concurrent logins for the same credential join a single browser flow. A new app-level inspection, `inspectAppMcpServers`, reports every server's effective config and real (probe-verified) authorization state — including plugin servers and runtime-name collisions — and the OAuth flow RPCs have locator-addressed variants (`authenticateAppMcpServer` / `resetAppMcpServerAuth`) so plugin servers can be signed in and reset directly.
+
 ## 0.36.1
 
 ### Patch Changes
